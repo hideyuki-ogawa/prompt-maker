@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>多機能プロンプト生成アプリ プロトタイプ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center py-8">
+            <h1 class="text-3xl font-bold text-gray-800">多機能プロンプト生成アプリ <span class="text-blue-600">(プロトタイプ)</span></h1>
+            <p class="text-gray-600 mt-2">目的に合わせたプロンプトを簡単に生成します。</p>
+        </header>
+
+        <div class="mb-[-1px] flex tab-container">
+            <button class="tab-button active" data-tab="email">メール作成</button>
+            <button class="tab-button" data-tab="sns">SNS投稿作成</button>
+            <button class="tab-button" data-tab="blog">ブログ記事作成</button>
+            <button class="tab-button" data-tab="report">訪問報告書作成</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <section class="form-section">
+                <div id="emailFormContainer" class="form-container active">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-6">1. メール情報を入力</h2>
+                    <form id="emailPromptForm" class="space-y-6">
+                        <div>
+                            <label for="email_purpose">メールの目的 (複数選択可):</label>
+                            <div id="email_purpose_container" class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="アポイント依頼">
+                                    <span class="checkmark"></span>
+                                    アポイント依頼
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="お礼">
+                                    <span class="checkmark"></span>
+                                    お礼
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="情報共有">
+                                    <span class="checkmark"></span>
+                                    情報共有
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="問い合わせ">
+                                    <span class="checkmark"></span>
+                                    問い合わせ
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="提案">
+                                    <span class="checkmark"></span>
+                                    提案
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="苦情・要望">
+                                    <span class="checkmark"></span>
+                                    苦情・要望
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="email_purpose" value="その他" id="email_purpose_other_checkbox">
+                                    <span class="checkmark"></span>
+                                    その他（自由記述）
+                                </label>
+                            </div>
+                            <input type="text" id="email_purpose_other" name="email_purpose_other" placeholder="その他の目的を具体的に入力" class="mt-2 hidden">
+                        </div>
+                        <div><label for="email_to_info">宛先情報:</label><input type="text" id="email_to_info" name="email_to_info" placeholder="例: 株式会社〇〇 △△部 部長 □□様"></div>
+                        <div><label for="email_sender_relation">送信者の立場・相手との関係性:</label><input type="text" id="email_sender_relation" name="email_sender_relation" placeholder="例: 弊社の新サービス担当、既存顧客"></div>
+                        <div><label for="email_main_points">主要な伝達事項 (箇条書き推奨):</label><textarea id="email_main_points" name="email_main_points" placeholder="例:\n- 新製品〇〇のご案内\n- △△に関するお打ち合わせのお願い"></textarea></div>
+                        <div><label for="email_tone">希望するトーン:</label>
+                            <select id="email_tone" name="email_tone">
+                                <option value="フォーマル">フォーマル</option><option value="丁寧">丁寧</option><option value="ややカジュアル">ややカジュアル</option><option value="フレンドリー">フレンドリー</option><option value="緊急性が高い">緊急性が高い</option>
+                            </select>
+                        </div>
+                        <div><label for="email_keywords">含めたいキーワード (カンマ区切り):</label><input type="text" id="email_keywords" name="email_keywords" placeholder="例: 新機能, コスト削減, 期間限定"></div>
+                        <div><label for="email_call_to_action">相手に促したい行動:</label><input type="text" id="email_call_to_action" name="email_call_to_action" placeholder="例: ご返信お待ちしております"></div>
+                        <div><label for="email_signature">署名情報:</label><textarea id="email_signature" name="email_signature" placeholder="例:\n株式会社 長目\n営業部 田中太郎"></textarea></div>
+                    </form>
+                </div>
+
+                <div id="snsFormContainer" class="form-container">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-6">1. SNS投稿情報を入力</h2>
+                    <form id="snsPromptForm" class="space-y-6">
+                        <div><label for="sns_platform">利用SNSプラットフォーム:</label>
+                            <select id="sns_platform" name="sns_platform">
+                                <option value="X (旧Twitter)">X (旧Twitter)</option><option value="Facebook">Facebook</option><option value="Instagram">Instagram</option><option value="LinkedIn">LinkedIn</option><option value="TikTok">TikTok</option><option value="その他">その他</option>
+                            </select>
+                        </div>
+                        <div><label for="sns_purpose">投稿の目的:</label><input type="text" id="sns_purpose" name="sns_purpose" placeholder="例: 新製品紹介, イベント告知"></div>
+                        <div><label for="sns_target_audience">ターゲット層:</label><input type="text" id="sns_target_audience" name="sns_target_audience" placeholder="例: 20代女性, IT業界のマネージャー層"></div>
+                        <div><label for="sns_main_message">最も伝えたいメッセージ (簡潔に):</label><textarea id="sns_main_message" name="sns_main_message" placeholder="例: 本日より新サービス開始！"></textarea></div>
+                        <div><label for="sns_keywords_hashtags">含めたいキーワード/ハッシュタグ候補 (カンマ区切り):</label><input type="text" id="sns_keywords_hashtags" name="sns_keywords_hashtags" placeholder="例: #新発売, #期間限定キャンペーン"></div>
+                        <div><label for="sns_tone">希望する投稿の雰囲気・トーン:</label>
+                            <select id="sns_tone" name="sns_tone">
+                                <option value="親しみやすい">親しみやすい</option><option value="専門的">専門的</option><option value="ユーモラス">ユーモラス</option><option value="感動的">感動的</option><option value="情報提供重視">情報提供重視</option>
+                            </select>
+                        </div>
+                        <div><label for="sns_call_to_action">コールトゥアクション (任意):</label><input type="text" id="sns_call_to_action" name="sns_call_to_action" placeholder="例: いいね・シェアをお願いします！, プロフィールリンクをチェック"></div>
+                        <div><label for="sns_image_video_info">画像/動画の有無・簡単な説明 (任意):</label><input type="text" id="sns_image_video_info" name="sns_image_video_info" placeholder="例: 製品の魅力的な写真を使用"></div>
+                    </form>
+                </div>
+
+                <div id="blogFormContainer" class="form-container">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-6">1. ブログ記事情報を入力</h2>
+                    <form id="blogPromptForm" class="space-y-6">
+                        <div><label for="blog_topic_title">記事のメイントピック/仮タイトル:</label><input type="text" id="blog_topic_title" name="blog_topic_title" placeholder="例: 生成AI活用のための5つのステップ"></div>
+                        <div><label for="blog_target_reader">ターゲット読者層:</label><input type="text" id="blog_target_reader" name="blog_target_reader" placeholder="例: 生成AI初心者, 中小企業経営者"></div>
+                        <div><label for="blog_reader_benefit">読者が記事を読むことで得られるメリット/解決できる課題:</label><textarea id="blog_reader_benefit" name="blog_reader_benefit" placeholder="例: AI導入の具体的な方法がわかる"></textarea></div>
+                        <div><label for="blog_structure_outline">記事の主要な構成案/見出し案 (箇条書き推奨):</label><textarea id="blog_structure_outline" name="blog_structure_outline" placeholder="例:\n- はじめに\n- ステップ1: 課題の特定\n- まとめ"></textarea></div>
+                        <div><label for="blog_seo_keywords">必ず含めたいキーワード (SEO対策, カンマ区切り):</label><input type="text" id="blog_seo_keywords" name="blog_seo_keywords" placeholder="例: 生成AI, 業務効率化, DX推進"></div>
+                        <div><label for="blog_style_tone">希望する文体・トーン:</label>
+                            <select id="blog_style_tone" name="blog_style_tone">
+                                <option value="解説調">解説調</option><option value="事例紹介">事例紹介</option><option value="インタビュー風">インタビュー風</option><option value="フレンドリー">フレンドリー</option><option value="専門的">専門的</option>
+                            </select>
+                        </div>
+                        <div><label for="blog_reference_material">参考資料/データ (任意):</label><input type="text" id="blog_reference_material" name="blog_reference_material" placeholder="例: 〇〇調査レポート, 弊社導入事例"></div>
+                        <div><label for="blog_call_to_action">読者に促したい行動 (任意):</label><input type="text" id="blog_call_to_action" name="blog_call_to_action" placeholder="例: 関連資料のダウンロード, お問い合わせはこちら"></div>
+                    </form>
+                </div>
+
+                <div id="reportFormContainer" class="form-container">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-6">1. 訪問報告書情報を入力</h2>
+                    <form id="reportPromptForm" class="space-y-6">
+                        <div><label for="report_visit_date">訪問日:</label><input type="date" id="report_visit_date" name="report_visit_date" class="w-auto"></div>
+                        <div><label for="report_client_info">訪問先企業・部署・担当者名:</label><input type="text" id="report_client_info" name="report_client_info" placeholder="例: 株式会社△△ 技術部 □□様"></div>
+                        <div><label for="report_our_attendees">自社訪問者:</label><input type="text" id="report_our_attendees" name="report_our_attendees" placeholder="例: 田中太郎, 佐藤花子"></div>
+                        <div><label for="report_purpose">訪問目的:</label><input type="text" id="report_purpose" name="report_purpose" placeholder="例: 新規システム導入に関するご提案"></div>
+                        <div><label for="report_discussion_points">主要な議題・協議内容 (箇条書き推奨):</label><textarea id="report_discussion_points" name="report_discussion_points" placeholder="例:\n- 現状の課題ヒアリング\n- 提案システムの概要説明"></textarea></div>
+                        <div><label for="report_decisions_agreements">決定事項・合意事項 (箇条書き推奨):</label><textarea id="report_decisions_agreements" name="report_decisions_agreements" placeholder="例:\n- 次回デモ実施日程の調整\n- 見積もり提出の合意"></textarea></div>
+                        <div><label for="report_pending_issues">ペンディング事項・課題 (箇条書き推奨):</label><textarea id="report_pending_issues" name="report_pending_issues" placeholder="例:\n- 詳細な要件定義の確認\n- 費用対効果の再検討"></textarea></div>
+                        <div><label for="report_next_actions">次回までのアクションプラン (担当者、期限含む):</label><textarea id="report_next_actions" name="report_next_actions" placeholder="例:\n- 〇〇様: デモ環境準備 (X月Y日まで)\n- 当社: 見積書作成 (X月Z日まで)"></textarea></div>
+                        <div><label for="report_impressions_notes">所感・気づき:</label><textarea id="report_impressions_notes" name="report_impressions_notes" placeholder="例: 先方のAI活用への関心は非常に高い。"></textarea></div>
+                        <div><label for="report_special_mention">報告書を読む相手に特に伝えたいこと:</label><input type="text" id="report_special_mention" name="report_special_mention" placeholder="例: 予算確保の必要性について上長へ報告願います。"></div>
+                    </form>
+                </div>
+                <div class="pt-8">
+                    <button type="button" id="generateBtn" class="btn-primary w-full">プロンプトを生成</button>
+                </div>
+            </section>
+
+            <section class="preview-section">
+                <h2 class="text-xl font-semibold text-gray-700 mb-6">2. 生成されたプロンプト</h2>
+                <div id="promptOutput" class="prompt-output">
+                    ここにプロンプトが表示されます...
+                </div>
+                <div class="mt-6 text-right">
+                    <button type="button" id="copyBtn" class="btn-secondary">プロンプトをコピー</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast">コピーしました！</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
