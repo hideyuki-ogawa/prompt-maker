@@ -340,6 +340,30 @@ button {
     display: block; /* Show active form */
 }
 
+/* Footer styling */
+footer {
+    background-color: #fafafa;
+}
+
+footer img {
+    max-height: 48px;
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 2rem 1rem;
+    }
+    
+    footer .flex-col {
+        gap: 1rem;
+    }
+    
+    footer img {
+        max-height: 40px;
+    }
+}
+
 /* Utility classes from Tailwind are still primarily used in HTML. */
 /* If you wish to reduce Tailwind dependency, define more classes here. */
 /* For example: */
