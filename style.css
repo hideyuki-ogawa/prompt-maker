@@ -340,6 +340,32 @@ button {
     display: block; /* Show active form */
 }
 
+/* Feedback section styling */
+.google-form-container {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.google-form-container iframe {
+    width: 100%;
+    min-height: 800px;
+    border: none;
+}
+
+/* Mobile feedback section */
+@media (max-width: 768px) {
+    #feedbackFormContainer p {
+        font-size: 14px;
+    }
+    
+    .google-form-container iframe {
+        min-height: 600px;
+    }
+}
+
 /* Footer styling */
 footer {
     background-color: #fafafa;

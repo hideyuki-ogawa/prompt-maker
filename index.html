@@ -20,6 +20,7 @@
             <button class="tab-button" data-tab="sns">SNS投稿作成</button>
             <button class="tab-button" data-tab="blog">ブログ記事作成</button>
             <button class="tab-button" data-tab="report">訪問報告書作成</button>
+            <button class="tab-button" data-tab="feedback">改善提案</button>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
@@ -136,6 +137,29 @@
                         <div><label for="report_impressions_notes">所感・気づき:</label><textarea id="report_impressions_notes" name="report_impressions_notes" placeholder="例: 先方のAI活用への関心は非常に高い。"></textarea></div>
                         <div><label for="report_special_mention">報告書を読む相手に特に伝えたいこと:</label><input type="text" id="report_special_mention" name="report_special_mention" placeholder="例: 予算確保の必要性について上長へ報告願います。"></div>
                     </form>
+                </div>
+
+                <div id="feedbackFormContainer" class="form-container">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-6">1. 機能追加・改善提案</h2>
+                    <div class="space-y-6">
+                        <p class="text-gray-600">
+                            はんなりプロンプトキッチンをより良くするために、皆様のご意見をお聞かせください。
+                            機能追加のご要望や改善提案がございましたら、以下のフォームからお寄せください。
+                        </p>
+                        <div class="google-form-container">
+                            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOQ13c7V2MZKMyoQm2luvhNUcXc1sN1OrnAg34LSXrHXRDEg/viewform?embedded=true" 
+                                    width="100%" 
+                                    height="800" 
+                                    frameborder="0" 
+                                    marginheight="0" 
+                                    marginwidth="0">
+                                読み込み中…
+                            </iframe>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <p>※ いただいたご提案は今後の開発の参考にさせていただきます</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="pt-8">
                     <button type="button" id="generateBtn" class="btn-primary w-full">プロンプトを生成</button>
