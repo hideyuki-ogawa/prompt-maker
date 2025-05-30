@@ -33,7 +33,21 @@ tabButtons.forEach(button => {
                 container.classList.add('active');
             }
         });
-        promptOutputDiv.textContent = 'ここにプロンプトが表示されます...'; // タブ切り替え時にプロンプト表示をリセット
+        
+        // フィードバックタブの場合は、生成ボタンとプロンプト表示エリアを非表示に
+        const previewSection = document.querySelector('.preview-section');
+        if (tabName === 'feedback') {
+            generateBtn.style.display = 'none';
+            if (previewSection) {
+                previewSection.style.display = 'none';
+            }
+        } else {
+            generateBtn.style.display = 'block';
+            if (previewSection) {
+                previewSection.style.display = 'block';
+            }
+            promptOutputDiv.textContent = 'ここにプロンプトが表示されます...'; // タブ切り替え時にプロンプト表示をリセット
+        }
     });
 });
 

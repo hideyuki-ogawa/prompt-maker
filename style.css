@@ -340,6 +340,32 @@ button {
     display: block; /* Show active form */
 }
 
+/* Feedback section styling */
+#feedbackFormContainer .bg-blue-50 {
+    background-color: #eff6ff;
+}
+
+#feedbackFormContainer .border-blue-200 {
+    border-color: #bfdbfe;
+}
+
+#feedbackFormContainer .text-blue-800 {
+    color: #1e40af;
+}
+
+/* Mobile feedback section */
+@media (max-width: 768px) {
+    #feedbackFormContainer p {
+        font-size: 14px;
+    }
+    
+    #feedbackFormContainer a {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+}
+
 /* Footer styling */
 footer {
     background-color: #fafafa;
