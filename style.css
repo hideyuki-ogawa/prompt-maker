@@ -23,6 +23,7 @@ body {
     
     .form-section, .preview-section {
         margin-bottom: 16px;
+        text-align: left;
     }
     
     /* Mobile header adjustments */
@@ -39,6 +40,7 @@ body {
     padding: 24px;
     border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    text-align: left;
 }
 
 /* Mobile form section styling */
@@ -260,6 +262,24 @@ button {
     font-size: 0.9em;
     line-height: 1.6;
     overflow-x: auto; /* Horizontal scroll for long lines */
+    /* Tailwindのスタイルを上書き */
+    /* Tailwindのリセットを完全に上書き */
+    all: revert;  /* 一旦全てのスタイルをリセット */
+    
+    /* 必要なスタイルを再定義 */
+    text-align: left !important;
+    display: block !important;
+    box-sizing: border-box;
+    width: 100%;
+    
+    /* 上記で消えたスタイルを再適用 */
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 16px;
+    border-radius: 6px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 0.9em;
+    line-height: 1.6;
 }
 
 /* Mobile prompt output styling */
