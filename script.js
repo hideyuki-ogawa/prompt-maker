@@ -36,15 +36,27 @@ tabButtons.forEach(button => {
         
         // フィードバックタブの場合は、生成ボタンとプロンプト表示エリアを非表示に
         const previewSection = document.querySelector('.preview-section');
+        const gridContainer = document.querySelector('.grid');
+        
         if (tabName === 'feedback') {
             generateBtn.style.display = 'none';
             if (previewSection) {
                 previewSection.style.display = 'none';
             }
+            // フィードバックタブの場合は1カラムレイアウトに
+            if (gridContainer) {
+                gridContainer.classList.remove('md:grid-cols-2');
+                gridContainer.classList.add('md:grid-cols-1');
+            }
         } else {
             generateBtn.style.display = 'block';
             if (previewSection) {
                 previewSection.style.display = 'block';
+            }
+            // 他のタブでは2カラムレイアウトに戻す
+            if (gridContainer) {
+                gridContainer.classList.remove('md:grid-cols-1');
+                gridContainer.classList.add('md:grid-cols-2');
             }
             promptOutputDiv.textContent = 'ここにプロンプトが表示されます...'; // タブ切り替え時にプロンプト表示をリセット
         }

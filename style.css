@@ -341,16 +341,18 @@ button {
 }
 
 /* Feedback section styling */
-#feedbackFormContainer .bg-blue-50 {
-    background-color: #eff6ff;
+.google-form-container {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
 }
 
-#feedbackFormContainer .border-blue-200 {
-    border-color: #bfdbfe;
-}
-
-#feedbackFormContainer .text-blue-800 {
-    color: #1e40af;
+.google-form-container iframe {
+    width: 100%;
+    min-height: 800px;
+    border: none;
 }
 
 /* Mobile feedback section */
@@ -359,10 +361,8 @@ button {
         font-size: 14px;
     }
     
-    #feedbackFormContainer a {
-        display: block;
-        text-align: center;
-        width: 100%;
+    .google-form-container iframe {
+        min-height: 600px;
     }
 }
 
