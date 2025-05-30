@@ -1,0 +1,24 @@
+{
+  "name": "prompt-maker",
+  "version": "0.1.0",
+  "description": "プロンプト生成ツール",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hideyuki-ogawa/prompt-maker.git"
+  },
+  "keywords": [
+    "prompt",
+    "generator",
+    "tool"
+  ],
+  "author": "hideyuki-ogawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hideyuki-ogawa/prompt-maker/issues"
+  },
+  "homepage": "https://github.com/hideyuki-ogawa/prompt-maker#readme"
+}
