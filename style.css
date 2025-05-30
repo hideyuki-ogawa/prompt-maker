@@ -260,6 +260,9 @@ button {
     font-size: 0.9em;
     line-height: 1.6;
     overflow-x: auto; /* Horizontal scroll for long lines */
+    text-align: left; /* Ensure text is aligned to the left */
+    vertical-align: top; /* Align content to top */
+    display: block; /* Ensure block display */
 }
 
 /* Mobile prompt output styling */
