@@ -114,7 +114,7 @@ test.describe('UI操作テスト', () => {
     await expect(page.locator('#email_tone')).toHaveValue('フォーマル');
 
     await page.selectOption('#email_tone', 'ややカジュアル');
-    await expect(page.locator('#email_tone')).toHaveValue('カジュアル');
+    await expect(page.locator('#email_tone')).toHaveValue('ややカジュアル');
 
     // SNSタブのプラットフォーム選択
     await page.click('[data-tab="sns"]');
@@ -124,7 +124,7 @@ test.describe('UI操作テスト', () => {
     // ブログタブのスタイル選択
     await page.click('[data-tab="blog"]');
     await page.selectOption('#blog_style_tone', '専門的');
-    await expect(page.locator('#blog_style_tone')).toHaveValue('専門的・権威的');
+    await expect(page.locator('#blog_style_tone')).toHaveValue('専門的');
   });
 
   test('テキストエリアへの複数行入力', async ({ page }) => {
@@ -149,9 +149,8 @@ test.describe('UI操作テスト', () => {
     await page.fill('#report_visit_date', '2024-12-25');
     await expect(page.locator('#report_visit_date')).toHaveValue('2024-12-25');
 
-    // 日付ピッカーを使用した入力もテスト可能
-    await page.locator('#report_visit_date').clear();
-    await page.locator('#report_visit_date').type('2024-01-01');
+    // 別の日付を入力
+    await page.fill('#report_visit_date', '2024-01-01');
     await expect(page.locator('#report_visit_date')).toHaveValue('2024-01-01');
   });
 
