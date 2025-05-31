@@ -9,14 +9,14 @@ test.describe('SNS投稿作成機能', () => {
 
   test('Twitter投稿の作成フロー', async ({ page }) => {
     // プラットフォーム選択
-    await page.selectOption('#sns_platform', 'Twitter');
+    await page.selectOption('#sns_platform', 'X (旧Twitter)');
 
     // フォーム入力
     await page.fill('#sns_purpose', '新製品の発表');
     await page.fill('#sns_target_audience', 'IT業界のプロフェッショナル、技術に興味がある人');
     await page.fill('#sns_main_message', '革新的なAIツールがついに登場！\n作業効率を大幅に向上させる新機能を搭載');
     await page.fill('#sns_keywords_hashtags', '#AI #イノベーション #新製品 #テクノロジー');
-    await page.selectOption('#sns_tone', 'カジュアル');
+    await page.selectOption('#sns_tone', '親しみやすい');
     await page.fill('#sns_call_to_action', '詳細はリンクから→');
     await page.fill('#sns_image_video_info', '製品のスクリーンショット画像を添付');
 
@@ -25,7 +25,7 @@ test.describe('SNS投稿作成機能', () => {
 
     // プロンプトが生成されたことを確認
     await expect(page.locator('#promptOutput')).not.toBeEmpty();
-    await expect(page.locator('#promptOutput')).toContainText('Twitter');
+    await expect(page.locator('#promptOutput')).toContainText('X (旧Twitter)');
     await expect(page.locator('#promptOutput')).toContainText('新製品の発表');
     await expect(page.locator('#promptOutput')).toContainText('#AI');
   });
@@ -39,7 +39,7 @@ test.describe('SNS投稿作成機能', () => {
     await page.fill('#sns_target_audience', '20-30代の女性');
     await page.fill('#sns_main_message', '春の新作コレクションが到着！\n優しい色合いで日常を彩ります');
     await page.fill('#sns_keywords_hashtags', '#春コーデ #ファッション #新作 #ootd');
-    await page.selectOption('#sns_tone', 'フレンドリー');
+    await page.selectOption('#sns_tone', '親しみやすい');
     await page.fill('#sns_call_to_action', 'プロフィールのリンクからチェック');
     await page.fill('#sns_image_video_info', '新作アイテムを着用したモデル写真（3枚）');
 
@@ -61,7 +61,7 @@ test.describe('SNS投稿作成機能', () => {
     await page.fill('#sns_target_audience', 'ビジネスプロフェッショナル、経営者');
     await page.fill('#sns_main_message', 'DXの成功には組織文化の変革が不可欠。\n最新の調査結果から見えてきた3つのポイント');
     await page.fill('#sns_keywords_hashtags', '#DX #デジタルトランスフォーメーション #組織改革');
-    await page.selectOption('#sns_tone', 'プロフェッショナル');
+    await page.selectOption('#sns_tone', '専門的');
     await page.fill('#sns_call_to_action', 'ご意見をコメント欄でお聞かせください');
     await page.fill('#sns_image_video_info', 'インフォグラフィック画像');
 
@@ -70,7 +70,7 @@ test.describe('SNS投稿作成機能', () => {
 
     // プロンプトが生成されたことを確認
     await expect(page.locator('#promptOutput')).toContainText('LinkedIn');
-    await expect(page.locator('#promptOutput')).toContainText('プロフェッショナル');
+    await expect(page.locator('#promptOutput')).toContainText('専門的');
   });
 
   test('Facebook投稿の作成フロー', async ({ page }) => {
@@ -82,7 +82,7 @@ test.describe('SNS投稿作成機能', () => {
     await page.fill('#sns_target_audience', '地域のフォロワー、常連客');
     await page.fill('#sns_main_message', 'おかげさまで開店5周年！\n皆様への感謝の気持ちを込めて特別キャンペーンを実施します');
     await page.fill('#sns_keywords_hashtags', '#5周年 #感謝 #キャンペーン');
-    await page.selectOption('#sns_tone', 'フレンドリー');
+    await page.selectOption('#sns_tone', '親しみやすい');
     await page.fill('#sns_call_to_action', '詳細は店頭で！');
 
     // プロンプト生成

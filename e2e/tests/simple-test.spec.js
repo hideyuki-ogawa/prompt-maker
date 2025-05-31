@@ -14,12 +14,15 @@ test.describe('簡単な動作確認', () => {
     // メールフォームが表示されている
     await expect(page.locator('#emailFormContainer')).toBeVisible();
     
-    // チェックボックスが表示されている
-    const checkbox = page.locator('input[name="email_purpose"][value="お礼"]');
-    await expect(checkbox).toBeVisible();
+    // チェックボックスのラベルが表示されている（カスタムチェックボックス）
+    const checkboxLabel = page.locator('label:has(input[name="email_purpose"][value="お礼"])');
+    await expect(checkboxLabel).toBeVisible();
     
     // チェックボックスをクリック
-    await checkbox.check();
+    await checkboxLabel.click();
+    
+    // チェックボックスが選択されたことを確認
+    const checkbox = page.locator('input[name="email_purpose"][value="お礼"]');
     await expect(checkbox).toBeChecked();
   });
 });

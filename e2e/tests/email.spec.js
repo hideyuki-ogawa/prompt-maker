@@ -9,8 +9,8 @@ test.describe('メール作成機能', () => {
 
   test('基本的なメール作成フロー', async ({ page }) => {
     // 用件の選択
-    await page.check('input[name="email_purpose"][value="アポイント依頼"]');
-    await page.check('input[name="email_purpose"][value="お礼"]');
+    await page.locator('label:has(input[name="email_purpose"][value="アポイント依頼"])').click();
+    await page.locator('label:has(input[name="email_purpose"][value="お礼"])').click();
 
     // フォーム入力
     await page.fill('#email_to_info', '株式会社テスト 山田太郎様');
@@ -37,7 +37,7 @@ test.describe('メール作成機能', () => {
     await expect(page.locator('#email_purpose_other')).toBeHidden();
 
     // 「その他」を選択
-    await page.check('#email_purpose_other_checkbox');
+    await page.locator('label:has(#email_purpose_other_checkbox)').click();
 
     // 追加入力フィールドが表示されることを確認
     await expect(page.locator('#email_purpose_other')).toBeVisible();
@@ -48,7 +48,7 @@ test.describe('メール作成機能', () => {
     // 他のフィールドも入力
     await page.fill('#email_to_info', 'テスト宛先');
     await page.fill('#email_main_points', 'テスト内容');
-    await page.selectOption('#email_tone', 'カジュアル');
+    await page.selectOption('#email_tone', 'ややカジュアル');
 
     // プロンプト生成
     await page.click('#generateBtn');
@@ -59,9 +59,9 @@ test.describe('メール作成機能', () => {
 
   test('複数の用件選択', async ({ page }) => {
     // 複数の用件を選択
-    await page.check('input[name="email_purpose"][value="情報共有"]');
-    await page.check('input[name="email_purpose"][value="問い合わせ"]');
-    await page.check('input[name="email_purpose"][value="提案"]');
+    await page.locator('label:has(input[name="email_purpose"][value="情報共有"])').click();
+    await page.locator('label:has(input[name="email_purpose"][value="問い合わせ"])').click();
+    await page.locator('label:has(input[name="email_purpose"][value="提案"])').click();
 
     // 必須フィールドを入力
     await page.fill('#email_to_info', 'テスト宛先');
@@ -79,7 +79,7 @@ test.describe('メール作成機能', () => {
 
   test('コピー機能', async ({ page }) => {
     // 最小限の入力
-    await page.check('input[name="email_purpose"][value="お礼"]');
+    await page.locator('label:has(input[name="email_purpose"][value="お礼"])').click();
     await page.fill('#email_to_info', 'テスト宛先');
     await page.fill('#email_main_points', 'テスト内容');
     await page.selectOption('#email_tone', 'フォーマル');

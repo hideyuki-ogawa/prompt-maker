@@ -37,9 +37,9 @@ test.describe('UI操作テスト', () => {
     await page.click('[data-tab="email"]');
 
     // 複数選択
-    await page.check('input[name="email_purpose"][value="アポイント依頼"]');
-    await page.check('input[name="email_purpose"][value="お礼"]');
-    await page.check('input[name="email_purpose"][value="情報共有"]');
+    await page.locator('label:has(input[name="email_purpose"][value="アポイント依頼"])').click();
+    await page.locator('label:has(input[name="email_purpose"][value="お礼"])').click();
+    await page.locator('label:has(input[name="email_purpose"][value="情報共有"])').click();
 
     // 選択状態を確認
     await expect(page.locator('input[name="email_purpose"][value="アポイント依頼"]')).toBeChecked();
@@ -47,7 +47,7 @@ test.describe('UI操作テスト', () => {
     await expect(page.locator('input[name="email_purpose"][value="情報共有"]')).toBeChecked();
 
     // 一部を解除
-    await page.uncheck('input[name="email_purpose"][value="お礼"]');
+    await page.locator('label:has(input[name="email_purpose"][value="お礼"])').click();
     await expect(page.locator('input[name="email_purpose"][value="お礼"]')).not.toBeChecked();
     await expect(page.locator('input[name="email_purpose"][value="アポイント依頼"]')).toBeChecked();
   });
@@ -59,7 +59,7 @@ test.describe('UI操作テスト', () => {
     await expect(page.locator('#email_purpose_other')).toBeHidden();
 
     // 「その他」をチェック
-    await page.check('#email_purpose_other_checkbox');
+    await page.locator('label:has(#email_purpose_other_checkbox)').click();
 
     // 追加入力フィールドが表示される
     await expect(page.locator('#email_purpose_other')).toBeVisible();
@@ -69,7 +69,7 @@ test.describe('UI操作テスト', () => {
     await expect(page.locator('#email_purpose_other')).toHaveValue('カスタム用件');
 
     // 「その他」のチェックを外す
-    await page.uncheck('#email_purpose_other_checkbox');
+    await page.locator('label:has(#email_purpose_other_checkbox)').click();
 
     // 追加入力フィールドが非表示になる
     await expect(page.locator('#email_purpose_other')).toBeHidden();
@@ -80,11 +80,11 @@ test.describe('UI操作テスト', () => {
     await page.click('[data-tab="sns"]');
 
     // フォーム入力
-    await page.selectOption('#sns_platform', 'Twitter');
+    await page.selectOption('#sns_platform', 'X (旧Twitter)');
     await page.fill('#sns_purpose', 'テスト投稿');
     await page.fill('#sns_target_audience', 'テストユーザー');
     await page.fill('#sns_main_message', 'これはテストメッセージです');
-    await page.selectOption('#sns_tone', 'カジュアル');
+    await page.selectOption('#sns_tone', '親しみやすい');
 
     // 生成ボタンをクリック
     await page.click('#generateBtn');
@@ -92,7 +92,7 @@ test.describe('UI操作テスト', () => {
     // プロンプトが表示される
     await expect(page.locator('#promptOutput')).not.toBeEmpty();
     const promptText = await page.locator('#promptOutput').textContent();
-    expect(promptText).toContain('Twitter');
+    expect(promptText).toContain('X (旧Twitter)');
     expect(promptText).toContain('テスト投稿');
 
     // コピーボタンをクリック
@@ -113,7 +113,7 @@ test.describe('UI操作テスト', () => {
     await page.selectOption('#email_tone', 'フォーマル');
     await expect(page.locator('#email_tone')).toHaveValue('フォーマル');
 
-    await page.selectOption('#email_tone', 'カジュアル');
+    await page.selectOption('#email_tone', 'ややカジュアル');
     await expect(page.locator('#email_tone')).toHaveValue('カジュアル');
 
     // SNSタブのプラットフォーム選択
@@ -123,7 +123,7 @@ test.describe('UI操作テスト', () => {
 
     // ブログタブのスタイル選択
     await page.click('[data-tab="blog"]');
-    await page.selectOption('#blog_style_tone', '専門的・権威的');
+    await page.selectOption('#blog_style_tone', '専門的');
     await expect(page.locator('#blog_style_tone')).toHaveValue('専門的・権威的');
   });
 
@@ -158,7 +158,7 @@ test.describe('UI操作テスト', () => {
   test('フォームのリセット（タブ切り替え時の状態保持）', async ({ page }) => {
     // メールタブで入力
     await page.click('[data-tab="email"]');
-    await page.check('input[name="email_purpose"][value="お礼"]');
+    await page.locator('label:has(input[name="email_purpose"][value="お礼"])').click();
     await page.fill('#email_to_info', 'テスト宛先');
 
     // 別のタブに切り替え
