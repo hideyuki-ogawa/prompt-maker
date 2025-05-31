@@ -4,6 +4,9 @@ node_modules/
 # Testing
 coverage/
 *.log
+playwright-report/
+test-results/
+playwright/.cache/
 
 # IDE
 .vscode/
