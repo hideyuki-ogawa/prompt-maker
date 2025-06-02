@@ -1,26 +1,21 @@
-// script.module.js - テスト用のエクスポート
-// promptGenerators.jsの内容を直接定義（テスト互換性のため）
+// promptGenerators.js - プロンプト生成関数モジュール
 
-function generateEmailPrompt(data) {
+export function generateEmailPrompt(data) {
     // メールの主要な伝達事項を整形。空行や前後の空白を除去し、各行の先頭に "- " を付与。
     const formattedMainPoints = data.mainPoints
-        ? data.mainPoints
-            .split('\n')
-            .map(line => line.trim())
-            .filter(line => line) // 空行を除去
-            .map(line => `  - ${line}`)
-            .join('\n')
-        : '';
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line) // 空行を除去
+        .map(line => `  - ${line}`)
+        .join('\n');
 
     // 署名情報を整形。メールと同様の処理。
     const formattedSignature = data.signature
-        ? data.signature
-            .split('\n')
-            .map(line => line.trim())
-            .filter(line => line) // 空行を除去
-            .map(line => `  ${line}`)
-            .join('\n')
-        : '';
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line) // 空行を除去
+        .map(line => `  ${line}`)
+        .join('\n');
 
     return `
 # 指示:
@@ -58,7 +53,7 @@ ${formattedSignature || '  (署名情報なし)'}
 `;
 }
 
-function generateSnsPrompt(data) {
+export function generateSnsPrompt(data) {
     return `
 # 指示:
 あなたは[${data.platform}]の運用に長けたSNSマーケターです。
@@ -86,16 +81,14 @@ function generateSnsPrompt(data) {
 `;
 }
 
-function generateBlogPrompt(data) {
+export function generateBlogPrompt(data) {
     // ブログの構成案/見出し案を整形
     const formattedStructureOutline = data.structureOutline
-        ? data.structureOutline
-            .split('\n')
-            .map(line => line.trim())
-            .filter(line => line)
-            .map(line => `  - ${line}`)
-            .join('\n')
-        : '';
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line)
+        .map(line => `  - ${line}`)
+        .join('\n');
 
     return `
 # 指示:
@@ -125,10 +118,9 @@ ${formattedStructureOutline || '  - (構成案なし)'}
 `;
 }
 
-function generateReportPrompt(data) {
+export function generateReportPrompt(data) {
     // 訪問報告書の各箇条書き項目を整形する共通関数
     const formatReportList = (text) => {
-        if (!text) return '';
         return text
             .split('\n')
             .map(line => line.trim())
@@ -178,14 +170,4 @@ ${formattedNextActions || '  - (特になし)'}
 ---
 上記指示に従って、訪問報告書を作成してください。
 `;
-}
-
-// Node.js環境でのみエクスポート（テスト用）
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        generateEmailPrompt,
-        generateSnsPrompt,
-        generateBlogPrompt,
-        generateReportPrompt
-    };
 }
