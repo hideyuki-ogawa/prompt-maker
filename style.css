@@ -262,24 +262,16 @@ button {
     font-size: 0.9em;
     line-height: 1.6;
     overflow-x: auto; /* Horizontal scroll for long lines */
-    /* Tailwindのスタイルを上書き */
-    /* Tailwindのリセットを完全に上書き */
-    all: revert;  /* 一旦全てのスタイルをリセット */
+    text-align: left !important; /* Force left alignment */
+    /* Use flex to ensure content starts at top-left */
+    display: block;
     
-    /* 必要なスタイルを再定義 */
-    text-align: left !important;
-    display: block !important;
-    box-sizing: border-box;
-    width: 100%;
-    
-    /* 上記で消えたスタイルを再適用 */
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    padding: 16px;
-    border-radius: 6px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-size: 0.9em;
-    line-height: 1.6;
+    position: relative;
+    left: 0;
+    right: auto;
+    float: none;
+    clear: both;
+    margin: 0;
 }
 
 /* Mobile prompt output styling */
