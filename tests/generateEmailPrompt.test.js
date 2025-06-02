@@ -25,65 +25,91 @@ describe('generateEmailPrompt', () => {
     expect(result).toContain('山田太郎');
   });
 
-  test('データが空の場合、デフォルトメッセージが返されること', () => {
+  test('データが空の場合でも、プロンプトが生成されること', () => {
     const data = {};
     const result = generateEmailPrompt(data);
-    expect(result).toBe('メールの情報を入力してください。');
+    expect(result).toContain('# 指示:');
+    expect(result).toContain('ビジネスメール作成アシスタント');
   });
 
   test('一部のデータのみ入力された場合、正しく処理されること', () => {
     const data = {
       purpose: '週次報告',
-      toInfo: '上司'
+      toInfo: '上司',
+      mainPoints: '',
+      signature: ''
     };
     
     const result = generateEmailPrompt(data);
     
     expect(result).toContain('週次報告');
     expect(result).toContain('上司');
-    expect(result).toContain('（未記入）');
+    expect(result).toContain('(具体的な伝達事項なし)');
+    expect(result).toContain('(署名情報なし)');
   });
 
   test('プロンプトに指示文が含まれること', () => {
     const data = {
-      purpose: 'テスト'
+      purpose: 'テスト',
+      toInfo: '',
+      senderRelation: '',
+      mainPoints: '',
+      tone: '',
+      keywords: '',
+      callToAction: '',
+      signature: ''
     };
     
     const result = generateEmailPrompt(data);
     
-    expect(result).toContain('以下の情報に基づいて、プロフェッショナルなビジネスメールを作成してください');
-    expect(result).toContain('適切な敬語を使い、要点が明確に伝わるメールを作成してください');
-    expect(result).toContain('件名も含めて提案してください');
+    expect(result).toContain('以下の詳細情報に基づいて、ビジネスメールの本文を作成してください');
+    expect(result).toContain('敬語やビジネス表現を適切に使用してください');
+    expect(result).toContain('件名は含めず、メール本文のみを生成してください');
   });
 
   test('すべてのフィールドラベルが含まれること', () => {
     const data = {
-      purpose: 'テスト'
+      purpose: 'テスト',
+      toInfo: '',
+      senderRelation: '',
+      mainPoints: '',
+      tone: '',
+      keywords: '',
+      callToAction: '',
+      signature: ''
     };
     
     const result = generateEmailPrompt(data);
     
-    expect(result).toContain('【メールの目的】');
-    expect(result).toContain('【宛先情報】');
-    expect(result).toContain('【送信者の立場・関係性】');
-    expect(result).toContain('【主要な伝達事項】');
-    expect(result).toContain('【トーン】');
-    expect(result).toContain('【含めたいキーワード】');
-    expect(result).toContain('【相手に促したい行動】');
-    expect(result).toContain('【署名】');
+    expect(result).toContain('メールの主な目的:');
+    expect(result).toContain('宛先:');
+    expect(result).toContain('送信者の立場・相手との関係性:');
+    expect(result).toContain('主要な伝達事項');
+    expect(result).toContain('希望するトーン:');
+    expect(result).toContain('含めたいキーワード');
+    expect(result).toContain('相手に促したい行動:');
+    expect(result).toContain('署名:');
   });
 
-  test('nullやundefinedの値が正しく処理されること', () => {
+  test('複数行のテキストが正しく整形されること', () => {
     const data = {
       purpose: 'テスト',
-      toInfo: null,
-      senderRelation: undefined,
-      mainPoints: ''
+      toInfo: '',
+      senderRelation: '',
+      mainPoints: '項目1\n項目2\n項目3',
+      tone: '',
+      keywords: '',
+      callToAction: '',
+      signature: '会社名\n部署名\n氏名'
     };
     
     const result = generateEmailPrompt(data);
     
-    expect(result).toContain('テスト');
-    expect(result.match(/（未記入）/g).length).toBeGreaterThan(0);
+    expect(result).toContain('- 項目1');
+    expect(result).toContain('- 項目2');
+    expect(result).toContain('- 項目3');
+    expect(result).toContain('会社名');
+    expect(result).toContain('部署名');
+    expect(result).toContain('氏名');
   });
 });

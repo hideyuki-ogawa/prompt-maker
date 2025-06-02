@@ -25,10 +25,11 @@ describe('generateSnsPrompt', () => {
     expect(result).toContain('プロダクトのスクリーンショット3枚');
   });
 
-  test('データが空の場合、デフォルトメッセージが返されること', () => {
+  test('データが空の場合でも、プロンプトが生成されること', () => {
     const data = {};
     const result = generateSnsPrompt(data);
-    expect(result).toBe('SNS投稿の情報を入力してください。');
+    expect(result).toContain('# 指示:');
+    expect(result).toContain('SNSマーケター');
   });
 
   test('一部のデータのみ入力された場合、正しく処理されること', () => {
@@ -41,57 +42,76 @@ describe('generateSnsPrompt', () => {
 
     expect(result).toContain('Instagram');
     expect(result).toContain('今日のランチ');
-    expect(result).toContain('（未記入）');
   });
 
   test('プロンプトに指示文が含まれること', () => {
     const data = {
-      platform: 'テスト'
+      platform: 'テスト',
+      purpose: '',
+      targetAudience: '',
+      mainMessage: '',
+      keywordsHashtags: '',
+      tone: '',
+      callToAction: '',
+      imageVideoInfo: ''
     };
 
     const result = generateSnsPrompt(data);
 
-    expect(result).toContain('以下の情報に基づいて、効果的なSNS投稿を作成してください');
-    expect(result).toContain('エンゲージメントを高める魅力的な投稿を作成してください');
-    expect(result).toContain('文字数制限も考慮してください');
+    expect(result).toContain('以下の情報に基づいて、魅力的でエンゲージメントを高めるSNS投稿を作成してください');
+    expect(result).toContain('ターゲット層に響くような投稿文を作成してください');
+    expect(result).toContain('各SNSプラットフォームの特性（文字数制限など）を考慮してください');
   });
 
   test('すべてのフィールドラベルが含まれること', () => {
     const data = {
-      platform: 'テスト'
+      platform: 'テスト',
+      purpose: '',
+      targetAudience: '',
+      mainMessage: '',
+      keywordsHashtags: '',
+      tone: '',
+      callToAction: '',
+      imageVideoInfo: ''
     };
 
     const result = generateSnsPrompt(data);
 
-    expect(result).toContain('【SNSプラットフォーム】');
-    expect(result).toContain('【投稿の目的】');
-    expect(result).toContain('【ターゲット層】');
-    expect(result).toContain('【メインメッセージ】');
-    expect(result).toContain('【キーワード/ハッシュタグ】');
-    expect(result).toContain('【トーン】');
-    expect(result).toContain('【コールトゥアクション】');
-    expect(result).toContain('【画像/動画情報】');
+    expect(result).toContain('利用SNSプラットフォーム:');
+    expect(result).toContain('投稿の目的:');
+    expect(result).toContain('ターゲット層:');
+    expect(result).toContain('最も伝えたいメッセージ:');
+    expect(result).toContain('含めたいキーワード/ハッシュタグ候補:');
+    expect(result).toContain('希望する投稿の雰囲気・トーン:');
+    expect(result).toContain('コールトゥアクション (任意):');
+    expect(result).toContain('画像/動画の有無・簡単な説明 (任意):');
   });
 
-  test('nullやundefinedの値が正しく処理されること', () => {
+  test('値がundefinedの場合も処理されること', () => {
     const data = {
-      platform: 'LinkedIn',
-      purpose: null,
-      targetAudience: undefined,
-      mainMessage: ''
+      platform: 'LinkedIn'
     };
 
     const result = generateSnsPrompt(data);
 
     expect(result).toContain('LinkedIn');
-    expect(result.match(/（未記入）/g).length).toBeGreaterThan(0);
+    expect(result).toContain('# 指示:');
   });
 
   test('異なるプラットフォームでも正しく動作すること', () => {
     const platforms = ['Twitter', 'Facebook', 'Instagram', 'LinkedIn', 'TikTok'];
     
     platforms.forEach(platform => {
-      const data = { platform };
+      const data = { 
+        platform,
+        purpose: '',
+        targetAudience: '',
+        mainMessage: '',
+        keywordsHashtags: '',
+        tone: '',
+        callToAction: '',
+        imageVideoInfo: ''
+      };
       const result = generateSnsPrompt(data);
       expect(result).toContain(platform);
     });
