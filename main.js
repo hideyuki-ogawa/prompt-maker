@@ -209,6 +209,7 @@ function collectEmailFormData() {
     tone: document.getElementById('email_tone').value,
     keywords: document.getElementById('email_keywords').value.trim() || '特になし',
     callToAction: document.getElementById('email_call_to_action').value.trim() || '特になし',
+    lengthLimit: document.getElementById('email_length_limit').value.trim() || '特になし',
     signature: document.getElementById('email_signature').value.trim() || '指定なし'
   };
 }
