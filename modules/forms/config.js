@@ -63,6 +63,12 @@ export const formConfig = {
         placeholder: '例: ご返信お待ちしております'
       },
       {
+        id: 'email_length_limit',
+        label: '文字数制限 (任意):',
+        type: 'text',
+        placeholder: '例: 500文字以内, 300-500文字程度'
+      },
+      {
         id: 'email_signature',
         label: '署名情報:',
         type: 'textarea',
