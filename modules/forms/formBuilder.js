@@ -2,12 +2,38 @@
 
 export function createFormField(field) {
   const fieldWrapper = document.createElement('div');
+  fieldWrapper.className = 'field-wrapper';
+  
+  // ラベルと保護チェックボックスのコンテナを作成
+  const labelContainer = document.createElement('div');
+  labelContainer.className = 'field-label-container';
   
   // ラベルを作成
   const label = document.createElement('label');
   label.setAttribute('for', field.id);
   label.textContent = field.label;
-  fieldWrapper.appendChild(label);
+  labelContainer.appendChild(label);
+  
+  // 保護チェックボックスを作成
+  const protectWrapper = document.createElement('div');
+  protectWrapper.className = 'protect-checkbox-wrapper';
+  
+  const protectCheckbox = document.createElement('input');
+  protectCheckbox.type = 'checkbox';
+  protectCheckbox.id = `protect_${field.id}`;
+  protectCheckbox.className = 'protect-checkbox';
+  protectCheckbox.title = 'チェックするとクリア時に保護されます';
+  
+  const protectLabel = document.createElement('label');
+  protectLabel.setAttribute('for', `protect_${field.id}`);
+  protectLabel.textContent = '保護';
+  protectLabel.className = 'protect-label';
+  
+  protectWrapper.appendChild(protectCheckbox);
+  protectWrapper.appendChild(protectLabel);
+  labelContainer.appendChild(protectWrapper);
+  
+  fieldWrapper.appendChild(labelContainer);
   
   // フィールドタイプに応じて要素を作成
   switch (field.type) {
@@ -83,12 +109,19 @@ export function createFormField(field) {
       // "その他"用の入力フィールドを追加
       const hasOtherOption = field.options.some(opt => opt.hasOtherInput);
       if (hasOtherOption) {
+        const otherLabel = document.createElement('label');
+        otherLabel.setAttribute('for', `${field.id}_other`);
+        otherLabel.textContent = 'その他の詳細:';
+        otherLabel.className = 'text-sm mt-2 block';
+        
         const otherInput = document.createElement('input');
         otherInput.type = 'text';
         otherInput.id = `${field.id}_other`;
         otherInput.name = `${field.id}_other`;
         otherInput.placeholder = 'その他の目的を具体的に入力';
         otherInput.className = 'mt-2 hidden';
+        
+        fieldWrapper.appendChild(otherLabel);
         fieldWrapper.appendChild(otherInput);
       }
       break;
