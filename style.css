@@ -561,6 +561,24 @@ footer img {
     }
 }
 
+/* Input size utilities */
+.input-size-small {
+    max-width: 200px;
+}
+
+.input-size-medium {
+    max-width: 400px;
+}
+
+.input-size-large {
+    max-width: 100%;
+}
+
+.w-auto {
+    width: auto !important;
+    max-width: 300px;
+}
+
 /* Utility classes from Tailwind are still primarily used in HTML. */
 /* If you wish to reduce Tailwind dependency, define more classes here. */
 .hidden {
