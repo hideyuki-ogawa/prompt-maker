@@ -11,14 +11,9 @@ import {
   generateReportPrompt 
 } from './modules/forms/index.js';
 import { showToast, initToast, copyToClipboard } from './modules/utils/index.js';
-import { ProgressBar } from './modules/ui/progressBar.js';
-import { HorizontalScrollContainer } from './modules/ui/horizontalScroll.js';
 
 // グローバル変数
 let currentTab = 'email'; // 初期タブ
-let progressBar = null; // プログレスバーインスタンス
-let currentStepIndex = 0; // 現在のステップインデックス
-let horizontalScrollContainer = null; // 横スクロールコンテナ
 
 // DOM要素のキャッシュ
 const elements = {};
@@ -48,12 +43,6 @@ function init() {
   
   // 初期タブをアクティブに
   activateTab('email');
-  
-  // プログレスバーを初期化
-  initializeProgressBar();
-  
-  // 横スクロールコンテナを初期化
-  initializeHorizontalScroll();
 }
 
 // タブボタンを動的に生成
@@ -125,12 +114,6 @@ function activateTab(tabName) {
     }
     elements.promptOutputDiv.textContent = 'ここにプロンプトが表示されます...';
   }
-  
-  // プログレスバーを再初期化
-  setTimeout(() => {
-    initializeProgressBar();
-    initializeHorizontalScroll();
-  }, 100);
 }
 
 // イベントリスナーの設定
@@ -349,128 +332,11 @@ function executeClear() {
   // プロンプト表示もクリア
   elements.promptOutputDiv.textContent = 'ここにプロンプトが表示されます...';
   
-  // プログレスバーを更新
-  setTimeout(() => {
-    updateProgressBasedOnInput();
-  }, 100);
-  
   // 結果をトーストで表示
   if (clearedCount > 0) {
     showToast(`${clearedCount}個のフィールドをクリアしました。`);
   } else {
     showToast('クリアするフィールドがありませんでした。', true);
-  }
-}
-
-
-// プログレスバーの初期化
-function initializeProgressBar() {
-  const container = document.getElementById('progress-bar-container');
-  const currentFormConfig = formConfig[currentTab];
-  
-  if (!currentFormConfig || currentFormConfig.isSpecial) {
-    // feedbackタブなどの特殊タブではプログレスバーを非表示
-    if (container) {
-      container.style.display = 'none';
-    }
-    return;
-  }
-  
-  // 既存のプログレスバーをクリア
-  if (container) {
-    container.innerHTML = '';
-    container.style.display = 'block';
-  }
-  
-  const totalSteps = currentFormConfig.fields.length;
-  progressBar = new ProgressBar('progress-bar-container', totalSteps);
-  
-  // 入力状況に基づいてステップを更新
-  updateProgressBasedOnInput();
-  
-  // 入力イベントリスナーを設定（重複防止）
-  if (!container.dataset.trackingSetup) {
-    setupProgressTracking();
-    container.dataset.trackingSetup = 'true';
-  }
-}
-
-// 入力状況に基づいてプログレスを更新
-function updateProgressBasedOnInput() {
-  if (!progressBar) return;
-  
-  const currentFormConfig = formConfig[currentTab];
-  if (!currentFormConfig) return;
-  
-  // 完了したステップの配列を作成
-  const completedStepIndices = [];
-  
-  currentFormConfig.fields.forEach((field, index) => {
-    if (isFieldCompleted(field)) {
-      completedStepIndices.push(index + 1); // 1ベースのインデックス
-    }
-  });
-  
-  // 最後に完了したステップを現在のステップとする
-  const latestCompletedStep = completedStepIndices.length > 0 ? Math.max(...completedStepIndices) : 0;
-  
-  progressBar.setStepWithCompleted(latestCompletedStep, completedStepIndices);
-  currentStepIndex = latestCompletedStep;
-}
-
-// フィールドが完了しているかチェック
-function isFieldCompleted(field) {
-  if (field.type === 'checkbox-group') {
-    // チェックボックスグループは1つ以上選択されていれば完了
-    const checkboxes = document.querySelectorAll(`input[name="${field.id}"]`);
-    return Array.from(checkboxes).some(cb => cb.checked);
-  } else if (field.type === 'select') {
-    // selectフィールドは初期値（最初のoption）以外が選択されていれば完了
-    const element = document.getElementById(field.id);
-    if (!element || !element.value) return false;
-    
-    // 最初のoptionの値と比較
-    const firstOptionValue = field.options && field.options[0] ? field.options[0].value : '';
-    return element.value !== firstOptionValue;
-  } else {
-    // その他のフィールドは値が入力されていれば完了
-    const element = document.getElementById(field.id);
-    return element && element.value.trim() !== '';
-  }
-}
-
-// プログレス追跡のためのイベントリスナー設定
-function setupProgressTracking() {
-  // フォーム内のすべての入力要素に対してイベントリスナーを設定
-  elements.formSection.addEventListener('input', () => {
-    setTimeout(updateProgressBasedOnInput, 100); // 少し遅延させて確実に値を取得
-  });
-  
-  elements.formSection.addEventListener('change', () => {
-    setTimeout(updateProgressBasedOnInput, 100);
-  });
-}
-
-// 横スクロールコンテナの初期化
-function initializeHorizontalScroll() {
-  // 既存のコンテナを破棄
-  if (horizontalScrollContainer) {
-    horizontalScrollContainer.destroy();
-    horizontalScrollContainer = null;
-  }
-  
-  const currentFormConfig = formConfig[currentTab];
-  
-  if (!currentFormConfig || currentFormConfig.isSpecial) {
-    // feedbackタブなどの特殊タブでは横スクロールを無効
-    return;
-  }
-  
-  // 全てのフィールドを対象とする
-  const scrollableFields = currentFormConfig.fields;
-  
-  if (scrollableFields.length > 0) {
-    horizontalScrollContainer = new HorizontalScrollContainer('horizontal-scroll-area', scrollableFields);
   }
 }
 

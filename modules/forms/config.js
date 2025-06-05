@@ -1,24 +1,4 @@
 // config.js - フォーム設定データ
-/**
- * フィールド定義の標準化された構造
- * 
- * @typedef {Object} FormField
- * @property {string} id - フィールドの一意ID
- * @property {string} label - フィールドのラベル
- * @property {'text'|'textarea'|'select'|'date'|'checkbox-group'} type - フィールドタイプ
- * @property {string} [placeholder] - プレースホルダーテキスト
- * @property {'small'|'medium'|'large'} [size] - 入力フィールドのサイズ
- * @property {'auto'|'full'} [displayWidth] - 表示幅の設定
- * @property {number} [maxLength] - 最大文字数制限
- * @property {number} [rows] - textareaの行数
- * @property {string} [class] - 追加CSSクラス
- * @property {Array<{value: string, label: string, hasOtherInput?: boolean}>} [options] - select/checkbox-groupの選択肢
- * 
- * サイズガイドライン:
- * - small: 短い入力項目（日付、短いテキスト）- maxLength ~100文字
- * - medium: 中程度の入力項目（キーワード、URL）- maxLength ~400文字
- * - large: 長い入力項目（説明文、タイトル）- maxLength 400文字以上
- */
 
 export const formConfig = {
   email: {
@@ -44,36 +24,24 @@ export const formConfig = {
         id: 'email_to_info',
         label: '宛先情報:',
         type: 'text',
-        placeholder: '例: 株式会社〇〇 △△部 部長 □□様',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 株式会社〇〇 △△部 部長 □□様'
       },
       {
         id: 'email_sender_relation',
         label: '送信者の立場・相手との関係性:',
         type: 'text',
-        placeholder: '例: 弊社の新サービス担当、既存顧客',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 150
+        placeholder: '例: 弊社の新サービス担当、既存顧客'
       },
       {
         id: 'email_main_points',
         label: '主要な伝達事項 (箇条書き推奨):',
         type: 'textarea',
-        placeholder: '例:\n- 新製品〇〇のご案内\n- △△に関するお打ち合わせのお願い',
-        size: 'large',
-        displayWidth: 'full',
-        rows: 4,
-        maxLength: 1000
+        placeholder: '例:\n- 新製品〇〇のご案内\n- △△に関するお打ち合わせのお願い'
       },
       {
         id: 'email_tone',
         label: '希望するトーン:',
         type: 'select',
-        size: 'medium',
-        displayWidth: 'full',
         options: [
           { value: 'フォーマル', label: 'フォーマル' },
           { value: '丁寧', label: '丁寧' },
@@ -86,38 +54,25 @@ export const formConfig = {
         id: 'email_keywords',
         label: '含めたいキーワード (カンマ区切り):',
         type: 'text',
-        placeholder: '例: 新機能, コスト削減, 期間限定',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 新機能, コスト削減, 期間限定'
       },
       {
         id: 'email_call_to_action',
         label: '相手に促したい行動:',
         type: 'text',
-        placeholder: '例: ご返信お待ちしております',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 100
+        placeholder: '例: ご返信お待ちしております'
       },
       {
         id: 'email_length_limit',
         label: '文字数制限 (任意):',
         type: 'text',
-        placeholder: '例: 500文字以内, 300-500文字程度',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 50
+        placeholder: '例: 500文字以内, 300-500文字程度'
       },
       {
         id: 'email_signature',
         label: '署名情報:',
         type: 'textarea',
-        placeholder: '例:\n株式会社 長目\n営業部 田中太郎',
-        size: 'medium',
-        displayWidth: 'full',
-        rows: 3,
-        maxLength: 300
+        placeholder: '例:\n株式会社 長目\n営業部 田中太郎'
       }
     ]
   },
@@ -130,8 +85,6 @@ export const formConfig = {
         id: 'sns_platform',
         label: '利用SNSプラットフォーム:',
         type: 'select',
-        size: 'medium',
-        displayWidth: 'full',
         options: [
           { value: 'X (旧Twitter)', label: 'X (旧Twitter)' },
           { value: 'Facebook', label: 'Facebook' },
@@ -145,45 +98,30 @@ export const formConfig = {
         id: 'sns_purpose',
         label: '投稿の目的:',
         type: 'text',
-        placeholder: '例: 新製品紹介, イベント告知',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 100
+        placeholder: '例: 新製品紹介, イベント告知'
       },
       {
         id: 'sns_target_audience',
         label: 'ターゲット層:',
         type: 'text',
-        placeholder: '例: 20代女性, IT業界のマネージャー層',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 150
+        placeholder: '例: 20代女性, IT業界のマネージャー層'
       },
       {
         id: 'sns_main_message',
         label: '最も伝えたいメッセージ (簡潔に):',
         type: 'textarea',
-        placeholder: '例: 本日より新サービス開始！',
-        size: 'medium',
-        displayWidth: 'full',
-        rows: 3,
-        maxLength: 500
+        placeholder: '例: 本日より新サービス開始！'
       },
       {
         id: 'sns_keywords_hashtags',
         label: '含めたいキーワード/ハッシュタグ候補 (カンマ区切り):',
         type: 'text',
-        placeholder: '例: #新発売, #期間限定キャンペーン',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 300
+        placeholder: '例: #新発売, #期間限定キャンペーン'
       },
       {
         id: 'sns_tone',
         label: '希望する投稿の雰囲気・トーン:',
         type: 'select',
-        size: 'medium',
-        displayWidth: 'full',
         options: [
           { value: '親しみやすい', label: '親しみやすい' },
           { value: '専門的', label: '専門的' },
@@ -196,19 +134,13 @@ export const formConfig = {
         id: 'sns_call_to_action',
         label: 'コールトゥアクション (任意):',
         type: 'text',
-        placeholder: '例: いいね・シェアをお願いします！, プロフィールリンクをチェック',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 100
+        placeholder: '例: いいね・シェアをお願いします！, プロフィールリンクをチェック'
       },
       {
         id: 'sns_image_video_info',
         label: '画像/動画の有無・簡単な説明 (任意):',
         type: 'text',
-        placeholder: '例: 製品の魅力的な写真を使用',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 100
+        placeholder: '例: 製品の魅力的な写真を使用'
       }
     ]
   },
@@ -221,55 +153,36 @@ export const formConfig = {
         id: 'blog_topic_title',
         label: '記事のメイントピック/仮タイトル:',
         type: 'text',
-        placeholder: '例: 生成AI活用のための5つのステップ',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 100
+        placeholder: '例: 生成AI活用のための5つのステップ'
       },
       {
         id: 'blog_target_reader',
         label: 'ターゲット読者層:',
         type: 'text',
-        placeholder: '例: 生成AI初心者, 中小企業経営者',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 150
+        placeholder: '例: 生成AI初心者, 中小企業経営者'
       },
       {
         id: 'blog_reader_benefit',
         label: '読者が記事を読むことで得られるメリット/解決できる課題:',
         type: 'textarea',
-        placeholder: '例: AI導入の具体的な方法がわかる',
-        size: 'medium',
-        displayWidth: 'full',
-        rows: 3,
-        maxLength: 500
+        placeholder: '例: AI導入の具体的な方法がわかる'
       },
       {
         id: 'blog_structure_outline',
         label: '記事の主要な構成案/見出し案 (箇条書き推奨):',
         type: 'textarea',
-        placeholder: '例:\n- はじめに\n- ステップ1: 課題の特定\n- まとめ',
-        size: 'large',
-        displayWidth: 'full',
-        rows: 5,
-        maxLength: 1000
+        placeholder: '例:\n- はじめに\n- ステップ1: 課題の特定\n- まとめ'
       },
       {
         id: 'blog_seo_keywords',
         label: '必ず含めたいキーワード (SEO対策, カンマ区切り):',
         type: 'text',
-        placeholder: '例: 生成AI, 業務効率化, DX推進',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 生成AI, 業務効率化, DX推進'
       },
       {
         id: 'blog_style_tone',
         label: '希望する文体・トーン:',
         type: 'select',
-        size: 'medium',
-        displayWidth: 'full',
         options: [
           { value: '解説調', label: '解説調' },
           { value: '事例紹介', label: '事例紹介' },
@@ -282,19 +195,13 @@ export const formConfig = {
         id: 'blog_reference_material',
         label: '参考資料/データ (任意):',
         type: 'text',
-        placeholder: '例: 〇〇調査レポート, 弊社導入事例',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 〇〇調査レポート, 弊社導入事例'
       },
       {
         id: 'blog_call_to_action',
         label: '読者に促したい行動 (任意):',
         type: 'text',
-        placeholder: '例: 関連資料のダウンロード, お問い合わせはこちら',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 100
+        placeholder: '例: 関連資料のダウンロード, お問い合わせはこちら'
       }
     ]
   },
@@ -307,94 +214,61 @@ export const formConfig = {
         id: 'report_visit_date',
         label: '訪問日:',
         type: 'date',
-        size: 'small',
-        displayWidth: 'auto'
+        class: 'w-auto'
       },
       {
         id: 'report_client_info',
         label: '訪問先企業・部署・担当者名:',
         type: 'text',
-        placeholder: '例: 株式会社△△ 技術部 □□様',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 株式会社△△ 技術部 □□様'
       },
       {
         id: 'report_our_attendees',
         label: '自社訪問者:',
         type: 'text',
-        placeholder: '例: 田中太郎, 佐藤花子',
-        size: 'medium',
-        displayWidth: 'full',
-        maxLength: 150
+        placeholder: '例: 田中太郎, 佐藤花子'
       },
       {
         id: 'report_purpose',
         label: '訪問目的:',
         type: 'text',
-        placeholder: '例: 新規システム導入に関するご提案',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 新規システム導入に関するご提案'
       },
       {
         id: 'report_discussion_points',
         label: '主要な議題・協議内容 (箇条書き推奨):',
         type: 'textarea',
-        placeholder: '例:\n- 現状の課題ヒアリング\n- 提案システムの概要説明',
-        size: 'large',
-        displayWidth: 'full',
-        rows: 4,
-        maxLength: 1000
+        placeholder: '例:\n- 現状の課題ヒアリング\n- 提案システムの概要説明'
       },
       {
         id: 'report_decisions_agreements',
         label: '決定事項・合意事項 (箇条書き推奨):',
         type: 'textarea',
-        placeholder: '例:\n- 次回デモ実施日程の調整\n- 見積もり提出の合意',
-        size: 'large',
-        displayWidth: 'full',
-        rows: 4,
-        maxLength: 1000
+        placeholder: '例:\n- 次回デモ実施日程の調整\n- 見積もり提出の合意'
       },
       {
         id: 'report_pending_issues',
         label: 'ペンディング事項・課題 (箇条書き推奨):',
         type: 'textarea',
-        placeholder: '例:\n- 詳細な要件定義の確認\n- 費用対効果の再検討',
-        size: 'large',
-        displayWidth: 'full',
-        rows: 4,
-        maxLength: 1000
+        placeholder: '例:\n- 詳細な要件定義の確認\n- 費用対効果の再検討'
       },
       {
         id: 'report_next_actions',
         label: '次回までのアクションプラン (担当者、期限含む):',
         type: 'textarea',
-        placeholder: '例:\n- 〇〇様: デモ環境準備 (X月Y日まで)\n- 当社: 見積書作成 (X月Z日まで)',
-        size: 'large',
-        displayWidth: 'full',
-        rows: 4,
-        maxLength: 1000
+        placeholder: '例:\n- 〇〇様: デモ環境準備 (X月Y日まで)\n- 当社: 見積書作成 (X月Z日まで)'
       },
       {
         id: 'report_impressions_notes',
         label: '所感・気づき:',
         type: 'textarea',
-        placeholder: '例: 先方のAI活用への関心は非常に高い。',
-        size: 'medium',
-        displayWidth: 'full',
-        rows: 3,
-        maxLength: 500
+        placeholder: '例: 先方のAI活用への関心は非常に高い。'
       },
       {
         id: 'report_special_mention',
         label: '報告書を読む相手に特に伝えたいこと:',
         type: 'text',
-        placeholder: '例: 予算確保の必要性について上長へ報告願います。',
-        size: 'large',
-        displayWidth: 'full',
-        maxLength: 200
+        placeholder: '例: 予算確保の必要性について上長へ報告願います。'
       }
     ]
   },
