@@ -12,11 +12,13 @@ import {
 } from './modules/forms/index.js';
 import { showToast, initToast, copyToClipboard } from './modules/utils/index.js';
 import { ProgressBar } from './modules/ui/progressBar.js';
+import { HorizontalScrollContainer } from './modules/ui/horizontalScroll.js';
 
 // グローバル変数
 let currentTab = 'email'; // 初期タブ
 let progressBar = null; // プログレスバーインスタンス
 let currentStepIndex = 0; // 現在のステップインデックス
+let horizontalScrollContainer = null; // 横スクロールコンテナ
 
 // DOM要素のキャッシュ
 const elements = {};
@@ -49,6 +51,9 @@ function init() {
   
   // プログレスバーを初期化
   initializeProgressBar();
+  
+  // 横スクロールコンテナを初期化
+  initializeHorizontalScroll();
 }
 
 // タブボタンを動的に生成
@@ -124,6 +129,7 @@ function activateTab(tabName) {
   // プログレスバーを再初期化
   setTimeout(() => {
     initializeProgressBar();
+    initializeHorizontalScroll();
   }, 100);
 }
 
@@ -430,6 +436,29 @@ function setupProgressTracking() {
   elements.formSection.addEventListener('change', () => {
     setTimeout(updateProgressBasedOnInput, 100);
   });
+}
+
+// 横スクロールコンテナの初期化
+function initializeHorizontalScroll() {
+  // 既存のコンテナを破棄
+  if (horizontalScrollContainer) {
+    horizontalScrollContainer.destroy();
+    horizontalScrollContainer = null;
+  }
+  
+  const currentFormConfig = formConfig[currentTab];
+  
+  if (!currentFormConfig || currentFormConfig.isSpecial) {
+    // feedbackタブなどの特殊タブでは横スクロールを無効
+    return;
+  }
+  
+  // checkbox-group以外のフィールドのみを対象とする
+  const scrollableFields = currentFormConfig.fields.filter(field => field.type !== 'checkbox-group');
+  
+  if (scrollableFields.length > 0) {
+    horizontalScrollContainer = new HorizontalScrollContainer('horizontal-scroll-area', scrollableFields);
+  }
 }
 
 // DOMContentLoadedイベントで初期化

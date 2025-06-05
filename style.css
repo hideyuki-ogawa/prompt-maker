@@ -579,6 +579,211 @@ footer img {
     max-width: 300px;
 }
 
+/* Horizontal Scroll Styling */
+.horizontal-scroll-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    opacity: 0;
+    height: 0;
+    transition: all 0.3s ease;
+}
+
+.scroll-mode-active .horizontal-scroll-wrapper {
+    opacity: 1;
+    height: auto;
+    min-height: 400px;
+}
+
+.horizontal-scroll-container {
+    display: flex;
+    width: 100%;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-slide {
+    min-width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    margin: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.slide-label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.slide-input-area {
+    width: 100%;
+    max-width: 500px;
+}
+
+.slide-input-area input,
+.slide-input-area textarea,
+.slide-input-area select {
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.slide-input-area input:focus,
+.slide-input-area textarea:focus,
+.slide-input-area select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Navigation Styling */
+.scroll-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.scroll-nav-btn {
+    padding: 0.75rem 1.5rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.scroll-nav-btn:hover:not(:disabled) {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.scroll-nav-btn:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.scroll-mode-toggle {
+    padding: 0.75rem 1.5rem;
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scroll-mode-toggle.active {
+    background: #10b981;
+}
+
+.scroll-mode-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.slide-indicator {
+    background: #374151;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Hide original form when scroll mode is active */
+.scroll-mode-active .form-section form {
+    display: none;
+}
+
+/* Mobile adjustments for horizontal scroll */
+@media (max-width: 768px) {
+    .scroll-slide {
+        padding: 1.5rem 1rem;
+        margin: 0.5rem;
+    }
+    
+    .slide-label {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .scroll-navigation {
+        gap: 0.5rem;
+        padding: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .scroll-nav-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .scroll-mode-toggle {
+        order: -1;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Animation enhancements */
+.scroll-slide {
+    transform: scale(0.98);
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.horizontal-scroll-container .scroll-slide:nth-child(1) {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Keyboard navigation indicators */
+.scroll-mode-active {
+    position: relative;
+}
+
+.scroll-mode-active::before {
+    content: "キーボード: ←→で移動、ESCで終了";
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #374151;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    z-index: 10;
+}
+
 /* Utility classes from Tailwind are still primarily used in HTML. */
 /* If you wish to reduce Tailwind dependency, define more classes here. */
 .hidden {
