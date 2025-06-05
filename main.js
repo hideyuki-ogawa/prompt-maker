@@ -419,6 +419,14 @@ function isFieldCompleted(field) {
     // チェックボックスグループは1つ以上選択されていれば完了
     const checkboxes = document.querySelectorAll(`input[name="${field.id}"]`);
     return Array.from(checkboxes).some(cb => cb.checked);
+  } else if (field.type === 'select') {
+    // selectフィールドは初期値（最初のoption）以外が選択されていれば完了
+    const element = document.getElementById(field.id);
+    if (!element || !element.value) return false;
+    
+    // 最初のoptionの値と比較
+    const firstOptionValue = field.options && field.options[0] ? field.options[0].value : '';
+    return element.value !== firstOptionValue;
   } else {
     // その他のフィールドは値が入力されていれば完了
     const element = document.getElementById(field.id);

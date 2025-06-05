@@ -82,7 +82,7 @@ export class HorizontalScrollContainer {
           inputElement.id = `scroll_${field.id}`;
           
           field.options.forEach((option, optionIndex) => {
-            const checkboxWrapper = document.createElement('label');
+            const checkboxWrapper = document.createElement('div');
             checkboxWrapper.className = 'scroll-checkbox-item';
             
             const checkbox = document.createElement('input');
@@ -94,11 +94,20 @@ export class HorizontalScrollContainer {
             const checkmark = document.createElement('span');
             checkmark.className = 'scroll-checkmark';
             
-            const labelText = document.createTextNode(option.label);
+            const labelText = document.createElement('span');
+            labelText.textContent = option.label;
+            labelText.className = 'scroll-checkbox-text';
             
             checkboxWrapper.appendChild(checkbox);
             checkboxWrapper.appendChild(checkmark);
             checkboxWrapper.appendChild(labelText);
+            
+            // クリックイベントをwrapper全体に設定
+            checkboxWrapper.addEventListener('click', (e) => {
+              e.preventDefault();
+              checkbox.checked = !checkbox.checked;
+              checkbox.dispatchEvent(new Event('change'));
+            });
             
             inputElement.appendChild(checkboxWrapper);
             
