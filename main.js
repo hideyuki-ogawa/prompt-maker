@@ -29,6 +29,7 @@ function init() {
   elements.toastMessage = document.getElementById('toastMessage');
   elements.previewSection = document.querySelector('.preview-section');
   elements.gridContainer = document.querySelector('.grid');
+  elements.clearBtn = document.getElementById('clearBtn');
   
   // タブとフォームを動的に生成
   createTabs();
@@ -130,6 +131,9 @@ function setupEventListeners() {
   
   // コピーボタン
   elements.copyBtn.addEventListener('click', copyPrompt);
+  
+  // クリアボタン
+  elements.clearBtn.addEventListener('click', executeClear);
   
   // メール目的「その他」チェックボックスの処理
   setupEmailOtherCheckbox();
@@ -270,6 +274,70 @@ async function copyPrompt() {
   }
 }
 
+
+// クリア機能の実装
+function executeClear() {
+  // feedbackタブではクリア機能を無効にする
+  if (currentTab === 'feedback') {
+    showToast('フィードバックタブではクリア機能は利用できません。', true);
+    return;
+  }
+
+  // 現在のタブのフィールド情報を取得
+  const currentFormConfig = formConfig[currentTab];
+  if (!currentFormConfig) return;
+  
+  let clearedCount = 0;
+  
+  currentFormConfig.fields.forEach(field => {
+    if (field.type === 'checkbox-group') {
+      // チェックボックスグループの処理
+      const protectCheckbox = document.getElementById(`protect_${field.id}`);
+      const isProtected = protectCheckbox && protectCheckbox.checked;
+      
+      if (!isProtected) {
+        // グループ全体をクリア
+        const checkboxes = document.querySelectorAll(`input[name="${field.id}"]`);
+        checkboxes.forEach(cb => {
+          if (cb.checked) {
+            cb.checked = false;
+            clearedCount++;
+          }
+        });
+      }
+      
+      // その他入力フィールドの処理（常にクリア）
+      const otherInput = document.getElementById(`${field.id}_other`);
+      if (otherInput && otherInput.value.trim()) {
+        otherInput.value = '';
+        otherInput.classList.add('hidden');
+        clearedCount++;
+      }
+    } else {
+      // 通常のフィールド
+      const protectCheckbox = document.getElementById(`protect_${field.id}`);
+      const isProtected = protectCheckbox && protectCheckbox.checked;
+      
+      if (!isProtected) {
+        const element = document.getElementById(field.id);
+        if (element && element.value.trim()) {
+          element.value = '';
+          clearedCount++;
+        }
+      }
+    }
+  });
+  
+  // プロンプト表示もクリア
+  elements.promptOutputDiv.textContent = 'ここにプロンプトが表示されます...';
+  
+  // 結果をトーストで表示
+  if (clearedCount > 0) {
+    showToast(`${clearedCount}個のフィールドをクリアしました。`);
+  } else {
+    showToast('クリアするフィールドがありませんでした。', true);
+  }
+}
 
 // DOMContentLoadedイベントで初期化
 document.addEventListener('DOMContentLoaded', init);

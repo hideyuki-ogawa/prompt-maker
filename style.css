@@ -402,22 +402,68 @@ footer img {
     }
 }
 
+
+/* Field wrapper and protect checkbox styling */
+.field-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.field-label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.protect-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.protect-checkbox {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.protect-label {
+    font-weight: 400;
+    font-size: 12px;
+    color: #6b7280;
+    cursor: pointer;
+    margin: 0;
+    user-select: none;
+}
+
+.protect-checkbox:checked + .protect-label {
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+/* Mobile adjustments for protect checkbox */
+@media (max-width: 768px) {
+    .field-label-container {
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .protect-checkbox-wrapper {
+        flex-shrink: 0;
+        font-size: 11px;
+    }
+    
+    .protect-checkbox {
+        width: 16px;
+        height: 16px;
+    }
+}
+
 /* Utility classes from Tailwind are still primarily used in HTML. */
 /* If you wish to reduce Tailwind dependency, define more classes here. */
-/* For example: */
-/*
 .hidden {
     display: none;
 }
-.w-full {
-    width: 100%;
-}
-.mt-2 {
-    margin-top: 0.5rem;
-}
-.space-y-6 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
-}
-*/
