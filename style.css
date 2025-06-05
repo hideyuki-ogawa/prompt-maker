@@ -79,6 +79,7 @@ textarea {
     appearance: none;
 }
 
+
 /* Mobile-specific input styling */
 @media (max-width: 768px) {
     input[type="text"],
@@ -89,6 +90,7 @@ textarea {
         font-size: 16px; /* Prevent zoom on iOS */
         min-height: 44px; /* iOS recommended minimum touch target */
     }
+    
     
     textarea {
         min-height: 120px; /* Larger textarea on mobile */
@@ -460,6 +462,121 @@ footer img {
         width: 16px;
         height: 16px;
     }
+}
+
+/* Progress Bar Styling */
+.progress-container {
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.step-label {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    position: relative;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 0 1rem;
+}
+
+.step-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.step-dot.completed {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.step-dot.current {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Mobile adjustments for progress bar */
+@media (max-width: 768px) {
+    .progress-container {
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .step-dot {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+    
+    .steps-container {
+        margin: 0 0.5rem;
+    }
+    
+    .step-label {
+        font-size: 12px;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Input size utilities */
+.input-size-small {
+    max-width: 200px;
+}
+
+.input-size-medium {
+    max-width: 400px;
+}
+
+.input-size-large {
+    max-width: 100%;
+}
+
+.w-auto {
+    width: auto !important;
+    max-width: 300px;
 }
 
 /* Utility classes from Tailwind are still primarily used in HTML. */
