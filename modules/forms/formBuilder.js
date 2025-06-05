@@ -43,7 +43,15 @@ export function createFormField(field) {
       input.id = field.id;
       input.name = field.id;
       if (field.placeholder) input.placeholder = field.placeholder;
-      if (field.class) input.className = field.class;
+      if (field.maxLength) input.maxLength = field.maxLength;
+      
+      // サイズとクラスの設定
+      const inputClasses = [];
+      if (field.class) inputClasses.push(field.class);
+      if (field.displayWidth === 'auto') inputClasses.push('w-auto');
+      if (field.size) inputClasses.push(`input-size-${field.size}`);
+      if (inputClasses.length > 0) input.className = inputClasses.join(' ');
+      
       fieldWrapper.appendChild(input);
       break;
       
@@ -52,7 +60,14 @@ export function createFormField(field) {
       dateInput.type = 'date';
       dateInput.id = field.id;
       dateInput.name = field.id;
-      if (field.class) dateInput.className = field.class;
+      
+      // サイズとクラスの設定
+      const dateClasses = [];
+      if (field.class) dateClasses.push(field.class);
+      if (field.displayWidth === 'auto') dateClasses.push('w-auto');
+      if (field.size) dateClasses.push(`input-size-${field.size}`);
+      if (dateClasses.length > 0) dateInput.className = dateClasses.join(' ');
+      
       fieldWrapper.appendChild(dateInput);
       break;
       
@@ -61,6 +76,14 @@ export function createFormField(field) {
       textarea.id = field.id;
       textarea.name = field.id;
       if (field.placeholder) textarea.placeholder = field.placeholder;
+      if (field.maxLength) textarea.maxLength = field.maxLength;
+      if (field.rows) textarea.rows = field.rows;
+      
+      // サイズクラスの設定
+      const textareaClasses = [];
+      if (field.size) textareaClasses.push(`input-size-${field.size}`);
+      if (textareaClasses.length > 0) textarea.className = textareaClasses.join(' ');
+      
       fieldWrapper.appendChild(textarea);
       break;
       
@@ -74,6 +97,12 @@ export function createFormField(field) {
         optionEl.textContent = option.label;
         select.appendChild(optionEl);
       });
+      
+      // サイズクラスの設定
+      const selectClasses = [];
+      if (field.size) selectClasses.push(`input-size-${field.size}`);
+      if (selectClasses.length > 0) select.className = selectClasses.join(' ');
+      
       fieldWrapper.appendChild(select);
       break;
       
@@ -157,9 +186,8 @@ export function createFormContainer(formData) {
     iframe.src = formData.content.iframeUrl;
     iframe.width = '100%';
     iframe.height = '800';
-    iframe.frameBorder = '0';
-    iframe.marginHeight = '0';
-    iframe.marginWidth = '0';
+    iframe.style.border = '0';
+    iframe.style.margin = '0';
     iframe.textContent = '読み込み中…';
     
     iframeContainer.appendChild(iframe);
