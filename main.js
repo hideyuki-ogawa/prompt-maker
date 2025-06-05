@@ -11,9 +11,12 @@ import {
   generateReportPrompt 
 } from './modules/forms/index.js';
 import { showToast, initToast, copyToClipboard } from './modules/utils/index.js';
+import { ProgressBar } from './modules/ui/progressBar.js';
 
 // グローバル変数
 let currentTab = 'email'; // 初期タブ
+let progressBar = null; // プログレスバーインスタンス
+let currentStepIndex = 0; // 現在のステップインデックス
 
 // DOM要素のキャッシュ
 const elements = {};
@@ -43,6 +46,9 @@ function init() {
   
   // 初期タブをアクティブに
   activateTab('email');
+  
+  // プログレスバーを初期化
+  initializeProgressBar();
 }
 
 // タブボタンを動的に生成
@@ -114,6 +120,11 @@ function activateTab(tabName) {
     }
     elements.promptOutputDiv.textContent = 'ここにプロンプトが表示されます...';
   }
+  
+  // プログレスバーを再初期化
+  setTimeout(() => {
+    initializeProgressBar();
+  }, 100);
 }
 
 // イベントリスナーの設定
@@ -338,6 +349,87 @@ function executeClear() {
   } else {
     showToast('クリアするフィールドがありませんでした。', true);
   }
+}
+
+
+// プログレスバーの初期化
+function initializeProgressBar() {
+  const container = document.getElementById('progress-bar-container');
+  const currentFormConfig = formConfig[currentTab];
+  
+  if (!currentFormConfig || currentFormConfig.isSpecial) {
+    // feedbackタブなどの特殊タブではプログレスバーを非表示
+    if (container) {
+      container.style.display = 'none';
+    }
+    return;
+  }
+  
+  // 既存のプログレスバーをクリア
+  if (container) {
+    container.innerHTML = '';
+    container.style.display = 'block';
+  }
+  
+  const totalSteps = currentFormConfig.fields.length;
+  progressBar = new ProgressBar('progress-bar-container', totalSteps);
+  
+  // 入力状況に基づいてステップを更新
+  updateProgressBasedOnInput();
+  
+  // 入力イベントリスナーを設定（重複防止）
+  if (!container.dataset.trackingSetup) {
+    setupProgressTracking();
+    container.dataset.trackingSetup = 'true';
+  }
+}
+
+// 入力状況に基づいてプログレスを更新
+function updateProgressBasedOnInput() {
+  if (!progressBar) return;
+  
+  const currentFormConfig = formConfig[currentTab];
+  if (!currentFormConfig) return;
+  
+  let completedSteps = 0;
+  
+  // 最初から順番に連続して完了しているフィールドの数をカウント
+  for (let i = 0; i < currentFormConfig.fields.length; i++) {
+    if (isFieldCompleted(currentFormConfig.fields[i])) {
+      completedSteps = i + 1;
+    } else {
+      // 未完了のフィールドが見つかったら、そこで停止
+      break;
+    }
+  }
+  
+  progressBar.setStep(completedSteps);
+  currentStepIndex = completedSteps;
+}
+
+// フィールドが完了しているかチェック
+function isFieldCompleted(field) {
+  if (field.type === 'checkbox-group') {
+    // チェックボックスグループは1つ以上選択されていれば完了
+    const checkboxes = document.querySelectorAll(`input[name="${field.id}"]`);
+    return Array.from(checkboxes).some(cb => cb.checked);
+  } else {
+    // その他のフィールドは値が入力されていれば完了
+    const element = document.getElementById(field.id);
+    return element && element.value.trim() !== '';
+  }
+}
+
+// プログレス追跡のためのイベントリスナー設定
+function setupProgressTracking() {
+  // フォーム内のすべての入力要素に対してイベントリスナーを設定
+  elements.formSection.addEventListener('input', () => {
+    setTimeout(updateProgressBasedOnInput, 100); // 少し遅延させて確実に値を取得
+  });
+  
+  elements.formSection.addEventListener('change', () => {
+    setTimeout(updateProgressBasedOnInput, 100);
+  });
 }
 
 // DOMContentLoadedイベントで初期化
