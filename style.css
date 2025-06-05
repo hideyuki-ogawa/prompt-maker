@@ -705,6 +705,11 @@ footer img {
     border-color: #3b82f6;
 }
 
+.scroll-checkbox-item.checked {
+    background-color: #eff6ff;
+    border-color: #3b82f6;
+}
+
 .scroll-checkbox-item input[type="checkbox"]:checked + .scroll-checkmark::after {
     content: '';
     position: absolute;

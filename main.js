@@ -349,6 +349,11 @@ function executeClear() {
   // プロンプト表示もクリア
   elements.promptOutputDiv.textContent = 'ここにプロンプトが表示されます...';
   
+  // プログレスバーを更新
+  setTimeout(() => {
+    updateProgressBasedOnInput();
+  }, 100);
+  
   // 結果をトーストで表示
   if (clearedCount > 0) {
     showToast(`${clearedCount}個のフィールドをクリアしました。`);

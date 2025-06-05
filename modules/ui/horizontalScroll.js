@@ -105,8 +105,17 @@ export class HorizontalScrollContainer {
             // クリックイベントをwrapper全体に設定
             checkboxWrapper.addEventListener('click', (e) => {
               e.preventDefault();
+              e.stopPropagation();
               checkbox.checked = !checkbox.checked;
-              checkbox.dispatchEvent(new Event('change'));
+              
+              // 視覚的フィードバック
+              if (checkbox.checked) {
+                checkboxWrapper.classList.add('checked');
+              } else {
+                checkboxWrapper.classList.remove('checked');
+              }
+              
+              this.syncCheckboxGroupWithOriginal(field.id);
             });
             
             inputElement.appendChild(checkboxWrapper);
@@ -130,7 +139,7 @@ export class HorizontalScrollContainer {
               checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
                   otherInput.classList.remove('hidden');
-                  otherInput.focus();
+                  setTimeout(() => otherInput.focus(), 100);
                 } else {
                   otherInput.classList.add('hidden');
                   otherInput.value = '';
@@ -154,12 +163,12 @@ export class HorizontalScrollContainer {
         if (field.type === 'checkbox-group') {
           // checkbox-groupは個別の同期処理
           inputElement.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', () => this.syncCheckboxGroupWithOriginal(field.id));
-            
             // 元のフィールドの状態を同期
             const originalCheckbox = document.querySelector(`input[name="${field.id}"][value="${checkbox.value}"]`);
             if (originalCheckbox && originalCheckbox.checked) {
               checkbox.checked = true;
+              // 視覚的フィードバックも設定
+              checkbox.closest('.scroll-checkbox-item').classList.add('checked');
             }
           });
           
