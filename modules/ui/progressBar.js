@@ -98,6 +98,34 @@ export class ProgressBar {
     }
   }
 
+  setStepWithCompleted(currentStep, completedStepIndices) {
+    this.currentStep = currentStep;
+    
+    // プログレスバーの更新
+    const progressFill = document.getElementById('progress-fill');
+    const percentage = (currentStep / this.totalSteps) * 100;
+    progressFill.style.width = `${percentage}%`;
+    
+    // ステップラベルの更新
+    const stepLabel = document.getElementById('step-label');
+    stepLabel.textContent = `ステップ ${currentStep} / ${this.totalSteps}`;
+    
+    // ステップドットの更新（完了したもの全てに色をつける）
+    const stepDots = document.querySelectorAll('.step-dot');
+    stepDots.forEach((dot, index) => {
+      const dotStep = index + 1;
+      dot.classList.remove('completed', 'current');
+      
+      if (completedStepIndices.includes(dotStep)) {
+        if (dotStep === currentStep) {
+          dot.classList.add('current');
+        } else {
+          dot.classList.add('completed');
+        }
+      }
+    });
+  }
+
   getCurrentStep() {
     return this.currentStep;
   }

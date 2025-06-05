@@ -397,20 +397,20 @@ function updateProgressBasedOnInput() {
   const currentFormConfig = formConfig[currentTab];
   if (!currentFormConfig) return;
   
-  let completedSteps = 0;
+  // 完了したステップの配列を作成
+  const completedStepIndices = [];
   
-  // 最初から順番に連続して完了しているフィールドの数をカウント
-  for (let i = 0; i < currentFormConfig.fields.length; i++) {
-    if (isFieldCompleted(currentFormConfig.fields[i])) {
-      completedSteps = i + 1;
-    } else {
-      // 未完了のフィールドが見つかったら、そこで停止
-      break;
+  currentFormConfig.fields.forEach((field, index) => {
+    if (isFieldCompleted(field)) {
+      completedStepIndices.push(index + 1); // 1ベースのインデックス
     }
-  }
+  });
   
-  progressBar.setStep(completedSteps);
-  currentStepIndex = completedSteps;
+  // 最後に完了したステップを現在のステップとする
+  const latestCompletedStep = completedStepIndices.length > 0 ? Math.max(...completedStepIndices) : 0;
+  
+  progressBar.setStepWithCompleted(latestCompletedStep, completedStepIndices);
+  currentStepIndex = latestCompletedStep;
 }
 
 // フィールドが完了しているかチェック
@@ -453,8 +453,8 @@ function initializeHorizontalScroll() {
     return;
   }
   
-  // checkbox-group以外のフィールドのみを対象とする
-  const scrollableFields = currentFormConfig.fields.filter(field => field.type !== 'checkbox-group');
+  // 全てのフィールドを対象とする
+  const scrollableFields = currentFormConfig.fields;
   
   if (scrollableFields.length > 0) {
     horizontalScrollContainer = new HorizontalScrollContainer('horizontal-scroll-area', scrollableFields);

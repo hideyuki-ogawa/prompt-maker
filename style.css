@@ -649,6 +649,90 @@ footer img {
     transform: translateY(-2px);
 }
 
+/* Scroll checkbox group styling */
+.scroll-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.scroll-checkbox-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+}
+
+.scroll-checkbox-item:hover {
+    border-color: #9ca3af;
+    background: #f3f4f6;
+}
+
+.scroll-checkbox-item input[type="checkbox"] {
+    display: none;
+}
+
+.scroll-checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    margin-right: 12px;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: white;
+    flex-shrink: 0;
+}
+
+.scroll-checkbox-item input[type="checkbox"]:checked + .scroll-checkmark {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.scroll-checkbox-item input[type="checkbox"]:checked + .scroll-checkmark::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.scroll-other-input-wrapper {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.scroll-other-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.scroll-other-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.scroll-other-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
 /* Navigation Styling */
 .scroll-navigation {
     display: flex;

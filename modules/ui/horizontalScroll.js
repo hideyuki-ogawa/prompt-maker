@@ -75,17 +75,102 @@ export class HorizontalScrollContainer {
             inputElement.appendChild(optionEl);
           });
           break;
+          
+        case 'checkbox-group':
+          inputElement = document.createElement('div');
+          inputElement.className = 'scroll-checkbox-group';
+          inputElement.id = `scroll_${field.id}`;
+          
+          field.options.forEach((option, optionIndex) => {
+            const checkboxWrapper = document.createElement('label');
+            checkboxWrapper.className = 'scroll-checkbox-item';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = field.id;
+            checkbox.value = option.value;
+            checkbox.id = `scroll_${field.id}_${optionIndex}`;
+            
+            const checkmark = document.createElement('span');
+            checkmark.className = 'scroll-checkmark';
+            
+            const labelText = document.createTextNode(option.label);
+            
+            checkboxWrapper.appendChild(checkbox);
+            checkboxWrapper.appendChild(checkmark);
+            checkboxWrapper.appendChild(labelText);
+            
+            inputElement.appendChild(checkboxWrapper);
+            
+            // "その他"入力フィールドの処理
+            if (option.hasOtherInput) {
+              const otherWrapper = document.createElement('div');
+              otherWrapper.className = 'scroll-other-input-wrapper';
+              
+              const otherLabel = document.createElement('label');
+              otherLabel.textContent = 'その他の詳細:';
+              otherLabel.className = 'scroll-other-label';
+              
+              const otherInput = document.createElement('input');
+              otherInput.type = 'text';
+              otherInput.id = `scroll_${field.id}_other`;
+              otherInput.name = `${field.id}_other`;
+              otherInput.placeholder = 'その他の目的を具体的に入力';
+              otherInput.className = 'scroll-other-input hidden';
+              
+              checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                  otherInput.classList.remove('hidden');
+                  otherInput.focus();
+                } else {
+                  otherInput.classList.add('hidden');
+                  otherInput.value = '';
+                }
+                this.syncCheckboxGroupWithOriginal(field.id);
+              });
+              
+              otherInput.addEventListener('input', () => {
+                this.syncCheckboxGroupWithOriginal(field.id);
+              });
+              
+              otherWrapper.appendChild(otherLabel);
+              otherWrapper.appendChild(otherInput);
+              inputElement.appendChild(otherWrapper);
+            }
+          });
+          break;
       }
       
       if (inputElement) {
-        // 元のフィールドと同期
-        inputElement.addEventListener('input', () => this.syncWithOriginalField(field.id, inputElement.value));
-        inputElement.addEventListener('change', () => this.syncWithOriginalField(field.id, inputElement.value));
-        
-        // 元のフィールドの値を取得して設定
-        const originalField = document.getElementById(field.id);
-        if (originalField && originalField.value) {
-          inputElement.value = originalField.value;
+        if (field.type === 'checkbox-group') {
+          // checkbox-groupは個別の同期処理
+          inputElement.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => this.syncCheckboxGroupWithOriginal(field.id));
+            
+            // 元のフィールドの状態を同期
+            const originalCheckbox = document.querySelector(`input[name="${field.id}"][value="${checkbox.value}"]`);
+            if (originalCheckbox && originalCheckbox.checked) {
+              checkbox.checked = true;
+            }
+          });
+          
+          // その他入力フィールドの初期値設定
+          const originalOtherInput = document.getElementById(`${field.id}_other`);
+          const scrollOtherInput = document.getElementById(`scroll_${field.id}_other`);
+          if (originalOtherInput && scrollOtherInput && originalOtherInput.value) {
+            scrollOtherInput.value = originalOtherInput.value;
+            scrollOtherInput.classList.remove('hidden');
+          }
+        } else {
+          // 通常のフィールドの同期
+          inputElement.addEventListener('input', () => this.syncWithOriginalField(field.id, inputElement.value));
+          inputElement.addEventListener('change', () => this.syncWithOriginalField(field.id, inputElement.value));
+          
+          // 元のフィールドの値を取得して設定
+          const originalField = document.getElementById(field.id);
+          if (originalField && originalField.value) {
+            inputElement.value = originalField.value;
+          }
         }
         
         inputArea.appendChild(inputElement);
@@ -241,6 +326,41 @@ export class HorizontalScrollContainer {
       originalField.dispatchEvent(new Event('input', { bubbles: true }));
       originalField.dispatchEvent(new Event('change', { bubbles: true }));
     }
+  }
+
+  syncCheckboxGroupWithOriginal(fieldId) {
+    const scrollCheckboxes = document.querySelectorAll(`#scroll_${fieldId} input[type="checkbox"]`);
+    const originalCheckboxes = document.querySelectorAll(`input[name="${fieldId}"]`);
+    
+    // 元のチェックボックスの状態をクリア
+    originalCheckboxes.forEach(cb => cb.checked = false);
+    
+    // 横スクロール側の状態を元に同期
+    scrollCheckboxes.forEach(scrollCb => {
+      if (scrollCb.checked) {
+        const originalCb = document.querySelector(`input[name="${fieldId}"][value="${scrollCb.value}"]`);
+        if (originalCb) {
+          originalCb.checked = true;
+        }
+      }
+    });
+    
+    // その他入力フィールドの同期
+    const scrollOtherInput = document.getElementById(`scroll_${fieldId}_other`);
+    const originalOtherInput = document.getElementById(`${fieldId}_other`);
+    if (scrollOtherInput && originalOtherInput) {
+      originalOtherInput.value = scrollOtherInput.value;
+      
+      // 表示状態も同期
+      if (scrollOtherInput.classList.contains('hidden')) {
+        originalOtherInput.classList.add('hidden');
+      } else {
+        originalOtherInput.classList.remove('hidden');
+      }
+    }
+    
+    // プログレスバー更新のためにchangeイベントを発火
+    originalCheckboxes[0]?.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   destroy() {
