@@ -274,7 +274,7 @@ export const formConfig = {
   },
   feedback: {
     id: 'feedback',
-    title: '改善提案',
+    title: 'アプリの改善提案',
     formTitle: '機能追加・改善提案',
     isSpecial: true, // 特殊なタブ（フォームではない）
     content: {
